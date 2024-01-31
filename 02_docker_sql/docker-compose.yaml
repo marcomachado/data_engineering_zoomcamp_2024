@@ -1,6 +1,7 @@
 services:
   pgdatabase:
     image: postgres:13
+    container_name: pg-database
     restart: always
     environment:
       - POSTGRES_USER=root
@@ -10,12 +11,21 @@ services:
       - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
     ports:
       - "5432:5432"
+    networks:
+     - pg-network
+
   pgadmin:
     image: dpage/pgadmin4
+    container_name: pg-admin
     restart: always
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - "8080:80"
+    networks:
+     - pg-network
     
+
+networks:
+  pg-network:
